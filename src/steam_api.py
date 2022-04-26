@@ -36,6 +36,7 @@ def user_playtimes(steamid):
         else:
             req_json = url_request.json()
             if 'games' in req_json['response']:
+                print ('p', end='') # p for parsing
                 # parse req_json fields for games user has played
                 for game in req_json['response']['games']:
                     if game['playtime_forever'] > 0:
@@ -113,7 +114,7 @@ for someid in tqdm(history['someid']):
     user_playtimes(someid)
 
 
-# create a list of unique steam_id's from user_playtimes
+# create a list of unique steam_id's from user_playtimes, takes less than a day :)
 steamids = list(set(playtime_df['steam_id']))
 
 # loop that picks a random steam_id from steamids and runs friends_games on it

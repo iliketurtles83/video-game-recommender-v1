@@ -2,7 +2,6 @@
 
 # import libraries
 import pandas as pd
-import numpy as np
 import string
 import ast
 import re
@@ -91,7 +90,7 @@ games_df['description'] = games_df['description'].apply(clean_text)
 games_df['description'] = games_df['description'].astype(str)
 
 # instantiate tfidfvectorizer
-tfidf = TfidfVectorizer(max_features=1500, lowercase=False)
+tfidf = TfidfVectorizer(max_features=1500, lowercase=False, min_df=5, ngram_range=(1,3))
 
 # fit tfidfvectorizer to description column
 tfidf_matrix = tfidf.fit_transform(games_df['description'])
@@ -103,8 +102,9 @@ tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=tfidf.get_feature_names(
 games_df = pd.concat([games_df, tfidf_df], axis=1)
 
 ''' Save dataframes and other stuff '''
-# make a dataframe from appid, name, developer and publisher
-gameinfo_df = games_df[['appid', 'name', 'developer', 'publisher']]
+# make a dataframe from appid, name, developer and publisher. for our recommendations
+# i have to go by location because 'name' is possibly a tf-idf term now
+gameinfo_df = games_df.iloc[:, [0,1,3,4]]
 
 # save gameinfo_df to csv
 gameinfo_df.to_csv('../data/steam_gameinfo.csv', index=False)

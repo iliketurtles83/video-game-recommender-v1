@@ -1,14 +1,14 @@
-''' Video Game Recommendation System based on SteamSpy and Steam Datasets 
-    - Uses a collaborative filtering approach to recommend games '''
+''' 
+Video Game Recommendation System based Steam Datasets
+Uses a collaborative and content based ensemble approach to recommend games
+'''
 
 # import libraries
-import numpy as np
 import pandas as pd
 import pickle
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import RobustScaler
 from surprise import Reader, Dataset, KNNWithZScore, SVD
-from surprise.model_selection import cross_validate
 from surprise.model_selection import train_test_split
 from surprise import accuracy
 from surprise.model_selection import GridSearchCV
@@ -38,8 +38,8 @@ data = Dataset.load_from_df(users_df[['steam_id', 'appid', 'playtime_forever']],
 # make a training and test set
 trainset, testset = train_test_split(data, test_size=0.25)
 
-''' KNN WITH ZSCORE '''
 
+''' KNN WITH Z SCORE '''
 # set up gridsearch param_grid for KNNWithZScore
 knn_param_grid = {'k': [5, 10, 20, 50, 100]}
 
@@ -110,13 +110,16 @@ def recommend_knn(title):
 ''' CONTENT-BASED FILTERING FOR GAME DATA '''
 
 # make a matrix out of games_df without the appid column
-matrix = games_df.drop(['appid'], axis=1).as_matrix()
+matrix = games_df.drop(['appid'], axis=1).values
 
 # make a cosine similarity matrix
 cosine_sim = cosine_similarity(matrix, matrix)
 
+# store cosine similarity matrix in pickle
+pickle.dump(cosine_sim, open('../models/cosine_sim.pkl', 'wb'))
+
 # Construct a reverse map of indices and game titles
-indices = pd.Series(games_df.index, index=games_df['name'])
+indices = pd.Series(gamesinfo_df.index, index=games_df['name'])
 
 def recommend_content(title, cosine_sim = cosine_sim):
     '''Get top 10 recommended games using content-based filtering
@@ -146,14 +149,14 @@ def recommend_content(title, cosine_sim = cosine_sim):
     return gamesinfo_df['name'].iloc[game_indices]
 
 
-# function that takes a game title and returns
+# function that takes a game title and returns top 10 for both
 def combined_recom(title):
     # get recommended games from knn
     knn_recom = recommend_knn(title)
     # get recommended games from content based
     cont_recom = recommend_content(title)
     # print knn_recom
-    print('Best games based on user data:')
-    print(knn_recom)
-    print('Best games based on game data:')
-    print(cont_recom)
+    print('Similar recommendations to', title, 'based on user data:')
+    print(*knn_recom, sep='\n')
+    print('\nSimilar recommendations to', title, 'based on game data:')
+    print(*cont_recom.tolist(), sep='\n')
