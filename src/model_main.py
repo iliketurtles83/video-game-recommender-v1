@@ -119,7 +119,7 @@ cosine_sim = cosine_similarity(matrix, matrix)
 pickle.dump(cosine_sim, open('../models/cosine_sim.pkl', 'wb'))
 
 # Construct a reverse map of indices and game titles
-indices = pd.Series(gamesinfo_df.index, index=games_df['name'])
+indices = pd.Series(gamesinfo_df.index, index=gamesinfo_df['name'])
 
 def recommend_content(title, cosine_sim = cosine_sim):
     '''Get top 10 recommended games using content-based filtering

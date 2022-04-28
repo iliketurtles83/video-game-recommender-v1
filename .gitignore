@@ -2,3 +2,4 @@
 *.pkl
 *.json
 .ipynb_checkpoints
+.pyc

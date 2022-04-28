@@ -1,21 +1,46 @@
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
-</head>
+	
 
-{{ form.autocomp.label }}: {{ form.autocomp }}
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-<script>
-    $(function() {
-        $.ajax({
-            url: '{{ url_for("autocomplete") }}'
-            }).done(function (data){
-                $('#game_autocomplete').autocomplete({
-                    source: data,
-                    minLength: 2
-                });
-            });
-        });
-</script>
+{% block styles %}
+{{ super() }}
+	<style>
+		body { background: #e8f1f9; }
+	</style>
+{% endblock %}
+
+
+{% block title %}
+Game Recommendations
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+
+      <h2 class="pt-5 pb-2">Game Recommendations</h2>
+
+      {{ wtf.quick_form(form) }}
+
+      <p class="pt-5"><strong>{{ message }}</strong></p>
+      {% if collabr %}
+      <p><b>Based on user data:</b></p>
+      <p>{% for each in collabr %}
+        {{ each }}<br>
+      {% endfor %}</p>
+
+      <p><b>Based on game data:</b></p>
+      <p>{% for each in contentr %}
+        {{ each }}<br>
+      {% endfor %}</p>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
