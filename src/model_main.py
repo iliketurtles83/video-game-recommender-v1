@@ -8,7 +8,7 @@ import pandas as pd
 import pickle
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import RobustScaler
-from surprise import Reader, Dataset, KNNWithZScore, SVD
+from surprise import Reader, Dataset, KNNWithZScore
 from surprise.model_selection import train_test_split
 from surprise import accuracy
 from surprise.model_selection import GridSearchCV
@@ -17,7 +17,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # import our processed datasets
 users_df = pd.read_csv('../data/steam_playtime_clean.csv')
 games_df = pd.read_csv('../data/steam_app_metadata_clean.csv')
-gamesinfo_df = pd.read_csv('../data/gameinfo.csv')
+gamesinfo_df = pd.read_csv('../data/steam_gameinfo.csv')
 
 
 ''' COLLABORATIVE FILTERING FOR USER PLAYTIME DATA '''
@@ -34,12 +34,12 @@ reader = Reader()
 
 # make surprise dataset
 data = Dataset.load_from_df(users_df[['steam_id', 'appid', 'playtime_forever']], reader)
-
+'''
 # make a training and test set
 trainset, testset = train_test_split(data, test_size=0.25)
 
 
-''' KNN WITH Z SCORE '''
+# KNN WITH Z SCORE
 # set up gridsearch param_grid for KNNWithZScore
 knn_param_grid = {'k': [5, 10, 20, 50, 100]}
 
@@ -55,19 +55,19 @@ print('Best params: ', grid_search.best_params)
 print('Score: ', grid_search.best_score_)
 
 # make knn model with best params from gridsearch
-knn = KNNWithZScore(k=300, sim_options={'name': 'pearson_baseline', 'user_based': False})
+knn = KNNWithZScore(k=400, sim_options={'name': 'pearson_baseline', 'user_based': False})
 
 # fit the training data and test with our test set
 predictions = knn.fit(trainset).test(testset)
 
 # get accuracy
 accuracy.rmse(predictions)
-
+'''
 # build a full trainset now
 trainset = data.build_full_trainset()
 
 # instantiate new knn
-knn = KNNWithZScore(k=300, sim_options={'name': 'pearson_baseline', 'user_based': False})
+knn = KNNWithZScore(k=400, sim_options={'name': 'pearson_baseline', 'user_based': False})
 
 # fit the knn
 knn.fit(trainset)
@@ -160,3 +160,8 @@ def combined_recom(title):
     print(*knn_recom, sep='\n')
     print('\nSimilar recommendations to', title, 'based on game data:')
     print(*cont_recom.tolist(), sep='\n')
+
+# take game title as input and get top 10 recommendations
+while True:
+    title = input('Enter a game title: ')
+    combined_recom(title)

@@ -1,13 +1,14 @@
 ''' Flask app that takes in a game title and returns the top 10 similar games '''
 
 # import libraries
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import pandas as pd
 import pickle
+from os import path
 
 app = Flask(__name__)
 
@@ -17,17 +18,19 @@ app.config['SECRET_KEY'] = 'C2HWGVoMGfNTBsrYQg8EcMrdTimkZfAb'
 # Flask-Bootstrap requires this line
 Bootstrap(app)
 
+SITE_ROOT = path.realpath(path.dirname(__file__))
+
 # get games info
-gamesinfo_df = pd.read_csv('/home/berry/Lighthouse/Projects/video-game-recommender-v1/data/steam_gameinfo.csv')
+gamesinfo_df = pd.read_csv(path.join(SITE_ROOT, 'data/steam_gameinfo.csv'))
 
 # load pickle knn model
-knn = pickle.load(open('/home/berry/Lighthouse/Projects/video-game-recommender-v1/models/knn_model.pkl', 'rb'))
+knn = pickle.load(open(path.join(SITE_ROOT, 'models/knn_model.pkl'), 'rb'))
 
 # load trainset
-trainset = pickle.load(open('/home/berry/Lighthouse/Projects/video-game-recommender-v1/models/trainset.pkl', 'rb'))
+trainset = pickle.load(open(path.join(SITE_ROOT, 'models/trainset.pkl'), 'rb'))
 
 # load pickle cosine similarity model
-cosine_sim = pickle.load(open('/home/berry/Lighthouse/Projects/video-game-recommender-v1/models/cosine_sim.pkl', 'rb'))
+cosine_sim = pickle.load(open(path.join(SITE_ROOT, 'models/cosine_sim.pkl'), 'rb'))
 
 # Construct a reverse map of indices and game titles
 indices = pd.Series(gamesinfo_df.index, index=gamesinfo_df['name'])
