@@ -26,6 +26,8 @@ For content-based filtering, create a cosine similarity matrix based on the join
 A Flask app for deployment. I would not recommend actually deploying this online as it is buggy and insecure.
 
 #### Known bugs
-- If you enter 'Hitman™', the collaborative recommend function will crash
+- If you enter 'Hitman™', the collaborative recommend function will crash. WIP
 
 So long, and thanks for all the fish!
+
+P.S.: Wasn't sure if Steam would like it if I upload my collected datasets to github so at the moment the data folder is empty.
