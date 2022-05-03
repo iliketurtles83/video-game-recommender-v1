@@ -12,14 +12,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 ''' PLAYTIME DATA PREP '''
 # load steam_playtime.csv
-users_df = pd.read_csv('../data/steam_playtime.csv')
+users_df = pd.read_csv('data/steam_playtime.csv')
 
 # drop counterstrike i.e. rows where appid is 730, 10 or 240
 users_df = users_df[~users_df['appid'].isin([730, 10, 240])]
 
 # drop user playtimes over a 150k minutes
 # probably people who mine in-game content using scripts
-users_df = users_df[users_df['playtime_forever'] < 150000]
+users_df = users_df[users_df['playtime_forever'] < 100000]
 
 # remove user playtimes under 60 minutes
 users_df = users_df[users_df['playtime_forever'] > 60]
@@ -30,7 +30,7 @@ users_df = users_df.drop(columns = ['playtime_2weeks'])
 
 ''' GAME DATA PREP '''
 # load steam_app_metadata.csv
-games_df = pd.read_csv('../data/steam_app_metadata.csv')
+games_df = pd.read_csv('data/steam_app_metadata.csv')
 
 # make genres and categories into lists
 games_df['categories'] = games_df['categories'].apply(ast.literal_eval)
@@ -107,19 +107,19 @@ games_df = pd.concat([games_df, tfidf_df], axis=1)
 gameinfo_df = games_df.iloc[:, [0,1,3,4]]
 
 # save gameinfo_df to csv
-gameinfo_df.to_csv('../data/steam_gameinfo.csv', index=False)
+gameinfo_df.to_csv('data/steam_gameinfo.csv', index=False)
 
 # drop rows from users_df where appid is not in games_df
 # play time for games is still in user profiles even if a game is no longer on steam
 users_df = users_df[users_df['appid'].isin(games_df['appid'])]
 
 # save users_df to csv
-users_df.to_csv('../data/steam_playtime_clean.csv', index=False)
+users_df.to_csv('data/steam_playtime_clean.csv', index=False)
 
 # drop name, developer, publisher and description from games_df
 games_df = games_df.drop(columns = ['name', 'developer', 'publisher', 'description'])
 
 # save games_df to csv
-games_df.to_csv('../data/steam_app_metadata_clean.csv', index=False)
+games_df.to_csv('data/steam_app_metadata_clean.csv', index=False)
 
 

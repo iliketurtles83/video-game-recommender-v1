@@ -15,9 +15,9 @@ from surprise.model_selection import GridSearchCV
 from sklearn.metrics.pairwise import cosine_similarity
 
 # import our processed datasets
-users_df = pd.read_csv('../data/steam_playtime_clean.csv')
-games_df = pd.read_csv('../data/steam_app_metadata_clean.csv')
-gamesinfo_df = pd.read_csv('../data/steam_gameinfo.csv')
+users_df = pd.read_csv('data/steam_playtime_clean.csv')
+games_df = pd.read_csv('data/steam_app_metadata_clean.csv')
+gamesinfo_df = pd.read_csv('data/steam_gameinfo.csv')
 
 
 ''' COLLABORATIVE FILTERING FOR USER PLAYTIME DATA '''
@@ -73,7 +73,7 @@ knn = KNNWithZScore(k=400, sim_options={'name': 'pearson_baseline', 'user_based'
 knn.fit(trainset)
 
 # save model in pickle
-pickle.dump(knn, open('../models/knn_model.pkl', 'wb'))
+pickle.dump(knn, open('models/knn_model.pkl', 'wb'))
 
 # function that takes game title and returns the inner id
 def get_appid(title):
@@ -116,13 +116,13 @@ matrix = games_df.drop(['appid'], axis=1).values
 cosine_sim = cosine_similarity(matrix, matrix)
 
 # store cosine similarity matrix in pickle
-pickle.dump(cosine_sim, open('../models/cosine_sim.pkl', 'wb'))
+pickle.dump(cosine_sim, open('models/cosine_sim.pkl', 'wb'))
 
 # Construct a reverse map of indices and game titles
 indices = pd.Series(gamesinfo_df.index, index=gamesinfo_df['name'])
 
 def recommend_content(title, cosine_sim = cosine_sim):
-    '''Get top 10 recommended games using content-based filtering
+    '''Get top 10 recommended games based on cosine similarity
     
     Args:
         title (str): Game title

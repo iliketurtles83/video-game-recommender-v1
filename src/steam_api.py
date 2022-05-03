@@ -124,7 +124,7 @@ for i in range(10):
     time.sleep(5)
 
 # save data to csv
-playtime_df.to_csv('../data/steam_playtime.csv', index=False)
+playtime_df.to_csv('data/steam_playtime.csv', index=False)
 
 
 ''' GAME METADATA '''
@@ -189,7 +189,7 @@ for appid in tqdm(appid_df['appid']):
                 badapps_df = badapps_df.append({'appid': int(appid)}, ignore_index=True)
 
 # save app_df to csv
-app_df.to_csv('../data/steam_app_metadata.csv', index=False)
+app_df.to_csv('data/steam_app_metadata.csv', index=False)
 
 # also store bad apps if we want to run the above loop again
 badapps_df.to_csv('data/bad_apps.csv', index=False)

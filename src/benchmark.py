@@ -10,7 +10,7 @@ from surprise import Reader, Dataset
 from surprise.model_selection import cross_validate
 
 # import our processed datasets
-users_df = pd.read_csv('../data/steam_playtime_clean.csv')
+users_df = pd.read_csv('data/steam_playtime_clean.csv')
 
 # first do robustscaler to minimize outliers
 scaler = RobustScaler(with_centering=True, with_scaling=True, quantile_range=(25.0, 75.0), copy=True)
