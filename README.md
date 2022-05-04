@@ -26,7 +26,7 @@ For content-based filtering, create a cosine similarity matrix based on the join
 A Flask app for deployment. I would not recommend actually deploying this online as it is buggy and insecure.
 
 #### Known bugs
-- If you enter 'Hitman™', the collaborative recommend function will crash. WIP
+- If you enter 'HITMAN™', the collaborative recommend function will crash. WIP
 
 So long, and thanks for all the fish!
 
