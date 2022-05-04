@@ -8,12 +8,14 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import pandas as pd
 import pickle
+import os
 from os import path
 
 app = Flask(__name__)
 
-# Flask-WTF requires an encryption key - the string can be anything
-app.config['SECRET_KEY'] = 'C2HWGVoMGfNTBsrYQg8EcMrdTimkZfAb'
+# Flask-WTF requires an encryption key
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 
 # Flask-Bootstrap requires this line
 Bootstrap(app)
