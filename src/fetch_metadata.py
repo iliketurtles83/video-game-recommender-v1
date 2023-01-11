@@ -1,11 +1,16 @@
-''' Fetch game metadata Steam API '''
+''' Fetch game metadata Steam API 
+    DEPRECATED: after realizing that maintaining the 
+    notebook files and python files creates too much overhead
+    and the realization that data science python and regular python
+    are two different animals, I decided to just use the notebooks. 
+    That being said, it was a good practice in refactoring and cleaning code.
+'''
 
 import pandas as pd
 import os
 import requests as re
 import time
 from tqdm import tqdm
-import random
 
 USER_PLAYTIME_PATH = 'data/steam_playtime.csv'
 APP_METADATA_PATH = 'data/steam_app_metadata.csv'

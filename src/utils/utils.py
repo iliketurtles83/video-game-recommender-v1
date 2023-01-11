@@ -1,3 +1,11 @@
+''' Utils for metadata retrieval. 
+    DEPRECATED: after realizing that maintaining the 
+    notebook files and python files creates too much overhead
+    and the realization that data science python and regular python
+    are two different animals, I decided to just use the notebooks. 
+    That being said, it was a good practice in refactoring and cleaning code.
+'''
+
 
 import os
 import time
@@ -7,7 +15,6 @@ import requests as re
 # import our api key and steam id
 STEAM_API_KEY = os.environ['STEAM_API']
 HOST_STEAM_ID = os.environ['STEAM_ID']
-
 GET_OWNED_GAMES_URL = 'http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/'
 GET_OWNED_REQUEST_PARAMS = {
     'key': STEAM_API_KEY, 
@@ -27,7 +34,9 @@ else:
 def get_userids_from_steamid_uk() -> pd.DataFrame:
     ''' 
     parse the csv files from https://steamid.uk/downloads/
-    and return a dataframe with all the userids 
+    and return a dataframe with all the userids.
+    UPDATE: just download the files and parse them locally. 
+    Downloading through python gives you 403 now.
     :return: dataframe with unique userids from steamid.uk
     '''
     # read in the csv files
