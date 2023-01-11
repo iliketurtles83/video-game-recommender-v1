@@ -1,1 +1,1 @@
-data folder where your api info and data prep will be stored
+data folder where your data from API calls and data prep will be stored.

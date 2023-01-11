@@ -1,9 +1,13 @@
-''' 
-Video Game Recommendation System based Steam Datasets
-Uses a collaborative and content based ensemble approach to recommend games
-'''
+""" 
+    Video Game Recommendation System based Steam Datasets
+    Uses a collaborative and content based ensemble approach to recommend games
+    DEPRECATED: after realizing that maintaining the 
+    notebook files and python files creates too much overhead
+    and the realization that data science python and regular python
+    are two different animals, I decided to just use the notebooks. 
+    That being said, it was a good practice in refactoring and cleaning code.
+"""
 
-# import libraries
 import pandas as pd
 import pickle
 from sklearn.preprocessing import StandardScaler
@@ -20,7 +24,7 @@ games_df = pd.read_csv('data/steam_app_metadata_clean.csv')
 gamesinfo_df = pd.read_csv('data/steam_gameinfo.csv')
 
 
-''' COLLABORATIVE FILTERING FOR USER PLAYTIME DATA '''
+""" COLLABORATIVE FILTERING FOR USER PLAYTIME DATA """
 # first do robustscaler to minimize outliers
 scaler = RobustScaler(with_centering=True, with_scaling=True, quantile_range=(25.0, 75.0), copy=True)
 users_df['playtime_forever'] = scaler.fit_transform(users_df['playtime_forever'].array.reshape(-1,1))
@@ -34,10 +38,10 @@ reader = Reader()
 
 # make surprise dataset
 data = Dataset.load_from_df(users_df[['steam_id', 'appid', 'playtime_forever']], reader)
+
 '''
 # make a training and test set
 trainset, testset = train_test_split(data, test_size=0.25)
-
 
 # KNN WITH Z SCORE
 # set up gridsearch param_grid for KNNWithZScore
@@ -63,6 +67,7 @@ predictions = knn.fit(trainset).test(testset)
 # get accuracy
 accuracy.rmse(predictions)
 '''
+
 # build a full trainset now
 trainset = data.build_full_trainset()
 
@@ -89,25 +94,25 @@ def get_title(appid):
 
 # function that takes a game title and returns 10 nearest neighbours
 def recommend_knn(title):
-    '''Get top 10 recommended games for a user based on KNN
+    """Get top 10 recommended games for a user based on KNN
     
     Args:
         title (str): Game title
         
     Returns:
         list: Top 10 recommended games
-    '''
+    """
     # get inner id for game
     inner_id = get_appid(title)
     # get nearest neighbours
     neighbors = knn.get_neighbors(inner_id, k=10)
     # get game titles for those neighbours
     titles = [get_title(i) for i in neighbors]
-    # return titles
+
     return titles
 
 
-''' CONTENT-BASED FILTERING FOR GAME DATA '''
+""" CONTENT-BASED FILTERING FOR GAME DATA """
 
 # make a matrix out of games_df without the appid column
 matrix = games_df.drop(['appid'], axis=1).values
@@ -122,14 +127,12 @@ pickle.dump(cosine_sim, open('models/cosine_sim.pkl', 'wb'))
 indices = pd.Series(gamesinfo_df.index, index=gamesinfo_df['name'])
 
 def recommend_content(title, cosine_sim = cosine_sim):
-    '''Get top 10 recommended games based on cosine similarity
+    """Get top 10 recommended games based on cosine similarity
     
-    Args:
-        title (str): Game title
+    Args: title (str): Game title
         
-    Returns:
-        list: Top 10 recommended games
-    '''
+    Returns: list: Top 10 recommended games
+    """
     # get index for our movie
     idx = indices[title]
     
@@ -155,7 +158,7 @@ def combined_recom(title):
     knn_recom = recommend_knn(title)
     # get recommended games from content based
     cont_recom = recommend_content(title)
-    # print knn_recom
+
     print('Similar recommendations to', title, 'based on user data:')
     print(*knn_recom, sep='\n')
     print('\nSimilar recommendations to', title, 'based on game data:')

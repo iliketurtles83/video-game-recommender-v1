@@ -1,6 +1,11 @@
-''' Data preparation for Steam datasets'''
+''' Data preparation for Steam datasets
+    DEPRECATED: after realizing that maintaining the 
+    notebook files and python files creates too much overhead
+    and the realization that data science python and regular python
+    are two different animals, I decided to just use the notebooks. 
+    That being said, it was a good practice in refactoring and cleaning code.
+    '''
 
-# import libraries
 import pandas as pd
 import string
 import ast
