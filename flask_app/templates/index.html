@@ -30,12 +30,13 @@ Game Recommendations
       {% if collabr %}
       <p><b>Based on user data:</b></p>
       <p>{% for each in collabr %}
-        {{ each }}<br>
+        <a href="{{ url_for('.index', name=each) }}">{{ each }}</a><br>
+      
       {% endfor %}</p>
 
       <p><b>Based on game data:</b></p>
       <p>{% for each in contentr %}
-        {{ each }}<br>
+        <a href="{{ url_for('.index', name=each) }}">{{ each }}</a><br>
       {% endfor %}</p>
       {% endif %}
 
