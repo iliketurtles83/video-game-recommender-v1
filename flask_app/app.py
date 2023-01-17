@@ -1,6 +1,5 @@
 ''' Flask app that takes in a game title and returns the top 10 similar games '''
 
-
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -9,12 +8,6 @@ from wtforms.validators import DataRequired
 from utils.utils import combined_recom
 
 import os
-import pandas as pd
-from os import path
-
-SITE_ROOT = path.realpath(path.dirname(__file__))
-# get games info
-games_df = pd.read_csv(path.join(SITE_ROOT, '../data/steam_app_metadata.csv'))
 
 app = Flask(__name__)
 
