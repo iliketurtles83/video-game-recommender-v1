@@ -5,7 +5,7 @@ from os import path
 SITE_ROOT = path.realpath(path.dirname(__file__))
 
 # get games info
-games_df = pd.read_csv(path.join(SITE_ROOT, '../../data/steam_app_metadata.csv'))
+games_df = pd.read_csv(path.join(SITE_ROOT, '../../data/steam_app_metadata_clean.csv'))
 
 # load pickle knn model
 knn = pickle.load(open(path.join(SITE_ROOT, '../../models/knn_model.pkl'), 'rb'))
@@ -44,7 +44,7 @@ def recommend_knn(title):
     # get inner id for game
     inner_id = get_appid(title)
     # get nearest neighbours
-    neighbors = knn.get_neighbors(inner_id, k=10)
+    neighbors = knn.get_neighbors(inner_id, k=20)
     # get game titles for those neighbours
     titles = [get_title(i) for i in neighbors]
     return titles
@@ -58,23 +58,27 @@ def recommend_content(title, cosine_sim = cosine_sim):
     Returns:
         list: Top 10 recommended games
     '''
-    # get index for our movie
+    # get index for our game
     idx = indices[title]
     
-    # get pairwise similarity scores of all movies w.r.t to our movie
+    # get pairwise similarity scores of all games w.r.t to our game
     sim_scores = list(enumerate(cosine_sim[idx]))
     
     # sort scores based on similarity
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
     
-    # get scores for 10 similar movies, not including the game itself
+    # get scores for 10 similar game, not including the game itself
     sim_scores = sim_scores[1:11]
-    
+    print(sim_scores)
     # get the game indices
     game_indices = [i[0] for i in sim_scores]
-    
-    # return the titles
-    return games_df['name'].iloc[game_indices].tolist()
+    similarity_scores = [i[1] for i in sim_scores]
+    # create list of dicts with game titles and similarity scores
+    gameslist = games_df['name'].iloc[game_indices].tolist()
+    # pair sim_scores with gameslist
+    gameslist = dict(zip(gameslist, similarity_scores))
+    return gameslist
+    # return games_df['name'].iloc[game_indices].tolist()
 
 # function that takes a game title and returns top 10 for both
 def combined_recom(title):

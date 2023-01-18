@@ -24,16 +24,20 @@ class NameForm(FlaskForm):
     submit = SubmitField('Submit')
 
 # route for home page
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
     # if request
     name = request.args.get('name')
     form = NameForm()
+    title = ""
     message = ""
-    if name != None:
+    if form.validate_on_submit():
+        title = form.name.data
+    elif name != None:
         title = name
+    if title:
         collabr, contentr = combined_recom(title)
         if collabr:
             message = "Here are the top 10 recommendations for " + title

@@ -35,8 +35,8 @@ Game Recommendations
       {% endfor %}</p>
 
       <p><b>Based on game data:</b></p>
-      <p>{% for each in contentr %}
-        <a href="{{ url_for('.index', name=each) }}">{{ each }}</a><br>
+      <p>{% for game, score in contentr.items() %}
+        <a href="{{ url_for('.index', name=game) }}">{{ game }}</a> {{ score }}<br>
       {% endfor %}</p>
       {% endif %}
 
