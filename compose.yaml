@@ -1,0 +1,7 @@
+services: 
+  web: 
+    build:
+     context: flask_app
+     target: builder
+    ports: 
+      - '5000:5000'
