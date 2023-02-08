@@ -5,7 +5,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
-from utils.utils import combined_recom
+from utils.utils import recommend_content
 
 import os
 
@@ -38,10 +38,10 @@ def index():
     elif name != None:
         title = name
     if title:
-        collabr, contentr = combined_recom(title)
-        if collabr:
+        similar_games = recommend_content(title)
+        if similar_games:
             message = "Here are the top 10 recommendations for " + title
-            return render_template('index.html', form=form, message=message, collabr=collabr, contentr=contentr)
+            return render_template('index.html', form=form, message=message, similar_games=similar_games)
         else:
             message = "That game is not in our database."
             return render_template('index.html', form=form, message=message)

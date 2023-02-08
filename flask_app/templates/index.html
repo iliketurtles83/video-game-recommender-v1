@@ -27,16 +27,13 @@ Game Recommendations
       {{ wtf.quick_form(form) }}
 
       <p class="pt-5"><strong>{{ message }}</strong></p>
-      {% if collabr %}
+      {% if similar_games %}
       <p><b>Based on user data:</b></p>
-      <p>{% for each in collabr %}
-        <a href="{{ url_for('.index', name=each) }}">{{ each }}</a><br>
-      
-      {% endfor %}</p>
+      <p>{% for game in similar_games %}
+            {% for title, score in game.items()}
 
-      <p><b>Based on game data:</b></p>
-      <p>{% for game, score in contentr.items() %}
-        <a href="{{ url_for('.index', name=game) }}">{{ game }}</a> {{ score }}<br>
+              <a href="{{ url_for('.index', name=title) }}">{{ title }}</a> ({{ score }})<br>
+            {% endfor %}   
       {% endfor %}</p>
       {% endif %}
 
