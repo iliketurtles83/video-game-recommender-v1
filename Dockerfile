@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1
 FROM python:3.10-slim-buster
 
 WORKDIR /app
@@ -11,7 +11,7 @@ RUN apt-get update && \
 RUN pip install -r requirements.txt
 
 COPY flask_app /app
-COPY models /models
+COPY models/weighted_sim.pkl /models/weighted_sim.pkl
 COPY data/steam_app_metadata_clean.csv /data/steam_app_metadata_clean.csv
 
 CMD ["python", "app.py"]
