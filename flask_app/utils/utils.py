@@ -7,9 +7,6 @@ SITE_ROOT = path.realpath(path.dirname(__file__))
 # get games info
 games_df = pd.read_csv(path.join(SITE_ROOT, '../../data/steam_app_metadata_clean.csv'))
 
-# load trainset
-trainset = pickle.load(open(path.join(SITE_ROOT, '../../models/trainset.pkl'), 'rb'))
-
 weighted_sim = pickle.load(open(path.join(SITE_ROOT, '../../models/weighted_sim.pkl'), 'rb'))
 
 # Construct a reverse map of indices and game titles

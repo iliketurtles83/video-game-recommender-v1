@@ -15,4 +15,3 @@ COPY models/weighted_sim.pkl /models/weighted_sim.pkl
 COPY data/steam_app_metadata_clean.csv /data/steam_app_metadata_clean.csv
 
 CMD ["python", "app.py"]
-# EXPOSE 5000

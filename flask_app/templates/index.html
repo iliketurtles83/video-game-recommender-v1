@@ -5,9 +5,7 @@
 
 {% block styles %}
 {{ super() }}
-	<style>
-		body { background: #e8f1f9; }
-	</style>
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 {% endblock %}
 
 
@@ -23,20 +21,39 @@ Game Recommendations
     <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
 
       <h2 class="pt-5 pb-2">Game Recommendations</h2>
-
-      {{ wtf.quick_form(form) }}
-
-      <p class="pt-5"><strong>{{ message }}</strong></p>
+      <p>
+        {{ wtf.quick_form(form) }}
+      </p>
+     
       {% if similar_games %}
-      <p><b>Based on user data:</b></p>
-      <p>{% for game in similar_games %}
-            {% for title, score in game.items()}
+        <table>
+          <caption>Similar Games</caption> 
+          <tr> <th colspan="3"><h4 class="pt-3 pb-2">{{ message }}</h4></td></tr>
+          {% for game in similar_games %}
+            <tr>
+              <td>
+                <a class="game_title" href="{{ url_for('.index', name=game['title']) }}">{{ game['title'] }}</a>
+              </td>
+              <td>
+                <div>
+                  Similarity Score: {{ game['score'] }}
+                </div>
+              </td>
+                <td>
+                  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#description_{{ loop.index }}">Expand</button>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                <div id="description_{{ loop.index }}" class="collapse description_box">
+                  {{ game['description'] }}
+                </div>
+              </td>
+              </tr>
 
-              <a href="{{ url_for('.index', name=title) }}">{{ title }}</a> ({{ score }})<br>
-            {% endfor %}   
-      {% endfor %}</p>
+          {% endfor %}
+        </table>
       {% endif %}
-
     </div>
   </div>
 </div>

@@ -40,7 +40,7 @@ def index():
     if title:
         similar_games = recommend_content(title)
         if similar_games:
-            message = "Here are the top 10 recommendations for " + title
+            message = "Games similar to " + title
             return render_template('index.html', form=form, message=message, similar_games=similar_games)
         else:
             message = "That game is not in our database."
@@ -48,5 +48,5 @@ def index():
     return render_template('index.html', form=form, message=message)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', debug=True)
 
