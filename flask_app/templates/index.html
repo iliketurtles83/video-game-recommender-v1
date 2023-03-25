@@ -19,25 +19,31 @@ Game Recommendations
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
-
-      <h2 class="pt-5 pb-2">Game Recommendations</h2>
+      <h2 class="pt-5 pb-2">Video Game Recommendations</h2>
       <p>
         {{ wtf.quick_form(form) }}
       </p>
      
       {% if similar_games %}
+        <h4 class="pt-3 pb-2">Games similar to {{ game }}</h4>
         <table>
-          <caption>Similar Games</caption> 
-          <tr> <th colspan="3"><h4 class="pt-3 pb-2">{{ message }}</h4></td></tr>
+          <caption class="visually-hidden">Similar Games</caption>
+          <tr>
+            <th>Game</th>
+            <th>Similarity</th>
+            <th>Description</th>
+          </tr>
           {% for game in similar_games %}
             <tr>
               <td>
-                <a class="game_title" href="{{ url_for('.index', name=game['title']) }}">{{ game['title'] }}</a>
+                <form action="{{ url_for('.index') }}" method="POST">
+                  <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"> 
+                  <input type="hidden" name="name" value="{{ game['title'] }}">
+                  <button type="submit" class="btn btn-link">{{ game['title'] }}</button>
+                </form>
               </td>
               <td>
-                <div>
-                  Similarity Score: {{ game['score'] }}
-                </div>
+                  {{ game['score'] }}
               </td>
                 <td>
                   <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#description_{{ loop.index }}">Expand</button>

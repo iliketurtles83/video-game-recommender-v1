@@ -26,7 +26,10 @@ def recommend_content(title, sim_matrix = weighted_sim):
         list: Top 10 recommended games
     '''
     # get index for our game
-    idx = indices[title]
+    try:
+        idx = indices[title]
+    except KeyError:
+        return None
     
     # get pairwise similarity scores of all games w.r.t to our game
     sim_scores = list(enumerate(sim_matrix[idx]))
