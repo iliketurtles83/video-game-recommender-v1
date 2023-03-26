@@ -3,7 +3,7 @@ FROM python:3.10-slim-buster
 
 WORKDIR /app
 
-COPY flask_app/requirements.txt /app
+COPY flask_app/requirements.txt /app/requirements.txt
 
 RUN apt-get update && \
     apt-get install -y gcc

@@ -23,7 +23,11 @@ Game Recommendations
       <p>
         {{ wtf.quick_form(form) }}
       </p>
-     
+      {% if message %}
+        <div class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
+      {% endif %}
       {% if similar_games %}
         <h4 class="pt-3 pb-2">Games similar to {{ game }}</h4>
         <table>
