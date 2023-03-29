@@ -11,7 +11,7 @@ RUN apt-get update && \
 RUN pip install -r requirements.txt
 
 COPY flask_app /app
-COPY models/weighted_sim.pkl /models/weighted_sim.pkl
-COPY data/steam_app_metadata_clean.csv /data/steam_app_metadata_clean.csv
+COPY models/weighted_sim_compressed.pkl /app/models/weighted_sim_compressed.pkl
+COPY data/steam_app_metadata_clean.csv /app/data/steam_app_metadata_clean.csv
 
 CMD ["python", "app.py"]
