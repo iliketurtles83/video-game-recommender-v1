@@ -15,7 +15,7 @@ For now, both ipynb and py files uploaded. The notebook files should run fine bu
 
 ## [Notebooks](notebooks)
 
-### [Data Collection](notebooks/scrape_user_playtimes.ipynb) and [Scraping](notebooks/scrape_game_metadata.ipynb)
+### [User Playtimes](notebooks/scrape_user_playtimes.ipynb) and [Metadata](notebooks/scrape_game_metadata.ipynb) Scraping
 Using a set of Steam IDs from steamid.uk, I was able to get the user playtime data via Steam API. Steam made all profiles private by default in 2018 and thus only 20% of those IDs came back with data. Enter recursion. I grabbed some random IDs from the working ones and recursively checked these users' friends, friends of friends and so on (depth = 5 seemed ok). This gave me some additional playtimes. I would not recommend getting playtime data for users on the various Steam fan site toplists. There is a high chance they have ridiculous playtime hours due to in-game content farming (or something else fishy). Then for all the steam games the users had played, I also got the game metadata from Steam API.
 
 ### [Data Preparation](notebooks/data_preparation.ipynb)
@@ -28,19 +28,19 @@ For content-based filtering, descriptions are vectorized using TF-IDF. Then prev
 A combined recommendation function is available that takes similarity vectors from both matrices and calculates a weighted average on the fly. 
 The downside of this implementation is that two separate models need to be stored and it takes up a lot of space. Also it is not a true hybrid.
 
-### Hybrid Model (model_hybrid)
+### [Hybrid Model](notebooks/model_hybrid.ipynb)
 A modified and improved version of the ensemble model. Different scalers for playtime data are tried out and it seems that simple normalizing yields the best RMSE. From the KNNWithZScore model, a KNN similarity matrix is built and reindexed to match the cosine similarity matrix. A single weighted matrix is then created based on the two matrices. In order to save space when storing the model for deployment, matrix entries are converted from float64 to float16. Currently working on a method to save even more space by taking advantage of matrix symmetricity and storing it in an array. This might mean more overhead when retrieving the similarities.
 
-### SVDpp model (model_svd)
+### [SVDpp model](notebooks/model_svd.ipynb)
 WIP.
 
-### Keras Neural Network Model (model_tensor)
+### [Keras Neural Network Model](notebooks/model_tensor.ipynb)
 WIP. For now just a model based on collaborative filtering that was adapted from Keras website.
 
-### Algo Benchmarking (model_benchmark)
+### [Algo Benchmarking](notebooks/model_benchmark.ipynb)
 Code by Susan Li to benchmark different algorithms for collaborative filtering. Thank you Susan! Link for her gist and article in the code. Because I wanted this recommender system to be not user-to-user based, i opted for KNNWithZScore.
 
-### Flask Deployment (flask_app)
+### [Flask Deployment](flask_app)
 A Flask app for deployment. Not yet meant for online deployment. TODO: wrap it in gunicorn and nginx.
 
 So long, and thanks for all the fish!
