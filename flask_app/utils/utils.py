@@ -15,6 +15,12 @@ indices = pd.Series(games_df.index, index=games_df['name'])
 def get_game_description(title):
     return games_df[games_df['name'] == title]['description'].values[0]
 
+def get_game_genres(title):
+    return games_df[games_df['name'] == title]['genres'].values[0]
+
+def get_game_categories(title):
+    return games_df[games_df['name'] == title]['categories'].values[0]
+
 def recommend_content(title, sim_matrix = weighted_sim):
     '''Get top 10 recommended games using
     
@@ -36,13 +42,13 @@ def recommend_content(title, sim_matrix = weighted_sim):
     
     # sort scores based on similarity
     sorted_sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    print(len(sorted_sim_scores))
     
     # create a list of dictionaries with title, description and score
     content_similar_games = [{'title': indices.index[i[0]],
                             'description': get_game_description(indices.index[i[0]]),
+                            'genres': get_game_genres(indices.index[i[0]]),
+                            'categories': get_game_categories(indices.index[i[0]]),
                             'score': i[1]} for i in sorted_sim_scores[1:11]]
-
-    # make a dictionary with title as key and score as value
-    # content_similar_scores = {indices.index[i[0]]: i[1] for i in sorted_sim_scores[1:21]}
 
     return content_similar_games

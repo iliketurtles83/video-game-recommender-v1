@@ -26,7 +26,6 @@ class NameForm(FlaskForm):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     ''' 
-    One and only route for this app.
     Displays a form to enter a game title.
     Displays results if form is submitted.
     '''

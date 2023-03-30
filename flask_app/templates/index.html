@@ -30,7 +30,7 @@ Game Recommendations
       {% endif %}
       {% if similar_games %}
         <h4 class="pt-3 pb-2">Games similar to {{ game }}</h4>
-        <table>
+        <table class="table table-borderless">
           <caption class="visually-hidden">Similar Games</caption>
           <tr>
             <th>Game</th>
@@ -56,7 +56,9 @@ Game Recommendations
               <tr>
                 <td colspan="3">
                 <div id="description_{{ loop.index }}" class="collapse description_box">
-                  {{ game['description'] }}
+                  <b>Genres: </b>{{ game['genres'] }}<br>
+                  <b>Categories: </b>{{ game['categories'] }}<br>
+                  <b>Description: </b>{{ game['description'] }}
                 </div>
               </td>
               </tr>
