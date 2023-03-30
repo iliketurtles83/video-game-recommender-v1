@@ -12,6 +12,6 @@ RUN pip install -r requirements.txt
 
 COPY flask_app /app
 COPY models/weighted_sim_compressed.pkl /app/models/weighted_sim_compressed.pkl
-COPY data/steam_app_metadata_clean.csv /app/data/steam_app_metadata_clean.csv
+COPY data/steam_metadata_flask.csv /app/data/steam_metadata_flask.csv
 
 CMD ["python", "app.py"]

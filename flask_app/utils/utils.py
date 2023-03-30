@@ -5,7 +5,7 @@ from os import path
 SITE_ROOT = path.realpath(path.dirname(__file__))
 
 # get games info
-games_df = pd.read_csv(path.join(SITE_ROOT, '../data/steam_app_metadata_clean.csv'))
+games_df = pd.read_csv(path.join(SITE_ROOT, '../data/steam_metadata_flask.csv'))
 
 weighted_sim = pickle.load(open(path.join(SITE_ROOT, '../models/weighted_sim_compressed.pkl'), 'rb'))
 
