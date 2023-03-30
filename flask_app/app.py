@@ -1,7 +1,7 @@
 ''' Flask app that takes in a game title and returns the top 10 similar games '''
 
 from flask import Flask, render_template
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
@@ -15,7 +15,7 @@ SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
 csrf.init_app(app)
-Bootstrap(app)
+Bootstrap5(app)
 
 
 class NameForm(FlaskForm):

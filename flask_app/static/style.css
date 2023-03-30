@@ -2,9 +2,12 @@ body {
     background: #e8f1f9; 
 }
 
-.description_box {
-    border-radius: 15px;
-    border: 2px solid #ffffff;
-    padding: 10px;
-    margin-bottom: 10px;
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.collapse-row {
+    display: none;
+    width: 100%; /* set the width to match the table columns */
 }

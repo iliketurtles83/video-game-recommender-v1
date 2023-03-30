@@ -1,73 +1,93 @@
-	
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Game Recommendations</title>
+    {{ bootstrap.load_css() }}
 
-{% extends 'bootstrap/base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block styles %}
-{{ super() }}
-<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-{% endblock %}
-
-
-{% block title %}
-Game Recommendations
-{% endblock %}
+    {% block styles %}
+      <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    {% endblock %}
+  </head>	
 
 
+
+<body>
 {% block content %}
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
-      <h2 class="pt-5 pb-2">Video Game Recommendations</h2>
-      <p>
-        {{ wtf.quick_form(form) }}
-      </p>
-      {% if message %}
-        <div class="alert alert-danger" role="alert">
-          {{ message }}
+  <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+    <h2 class="pt-5 pb-2">Video Game Recommendations</h2>
+    <div class="form">
+      <form action="{{ url_for('.index') }}" method="POST">
+        {{ form.csrf_token }}
+        <div class="form-group">
+          {{ form.name.label(class="form-label") }}
+          {{ form.name(size=20, class="form-control", placeholder="Enter a game name", value='') }}
+          {{ form.submit(class="btn btn-primary") }}
         </div>
-      {% endif %}
-      {% if similar_games %}
-        <h4 class="pt-3 pb-2">Games similar to {{ game }}</h4>
-        <table class="table table-borderless">
-          <caption class="visually-hidden">Similar Games</caption>
+
+      </form>
+    </div>
+    {% if message %}
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
+    {% endif %}
+    {% if similar_games %}
+      <h4 class="pt-3 pb-2">Games similar to {{ game }}</h4>
+      <table class="table table-borderless align-middle">
+        <caption class="visually-hidden">Similar Games</caption>
+        <thead class="thead-light">
           <tr>
             <th>Game</th>
             <th>Similarity</th>
             <th>Description</th>
           </tr>
-          {% for game in similar_games %}
-            <tr>
+        </thead>
+        {% for game in similar_games %}
+          <tr>
+            <td>
+              <form action="{{ url_for('.index') }}" method="POST">
+                <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"> 
+                <input type="hidden" name="name" value="{{ game['title'] }}">
+                <button type="submit" class="btn btn-link">{{ game['title'] }}</button>
+              </form>
+            </td>
+            <td>
+                {{ game['score'] }}
+            </td>
               <td>
-                <form action="{{ url_for('.index') }}" method="POST">
-                  <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}"> 
-                  <input type="hidden" name="name" value="{{ game['title'] }}">
-                  <button type="submit" class="btn btn-link">{{ game['title'] }}</button>
-                </form>
+                <button class="collapse-btn btn btn-primary">Expand/Collapse</button>
               </td>
-              <td>
-                  {{ game['score'] }}
-              </td>
-                <td>
-                  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#description_{{ loop.index }}">Expand</button>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3">
-                <div id="description_{{ loop.index }}" class="collapse description_box">
-                  <b>Genres: </b>{{ game['genres'] }}<br>
-                  <b>Categories: </b>{{ game['categories'] }}<br>
-                  <b>Description: </b>{{ game['description'] }}
+            </tr>
+            <tr class="collapse-row">
+              <td colspan="3">
+                <div class="card card-body">
+                  <p><b>Genres:</b> {{ game['genres'] }}<br></p>
+                  <p><b>Categories:</b> {{ game['categories'] }}<br></p>
+                  <p><b>Description:</b> {{ game['description'] }}</p>     
                 </div>
               </td>
-              </tr>
+              
+            </tr>
 
-          {% endfor %}
-        </table>
-      {% endif %}
-    </div>
+        {% endfor %}
+      </table>
+    {% endif %}
   </div>
 </div>
-
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $('.collapse-row').hide(); // hide all collapse rows by default
+      $('.collapse-btn').click(function() {
+          $(this).closest('tr').next('.collapse-row').toggle(); // toggle the collapse row below the current row
+      });
+  });
+</script>  
 {% endblock %}
+{% endblock %}
+</body>
