@@ -9,9 +9,11 @@ So for my final project at Lighthouse, I decided to make my own simple video gam
 - [x] Hybrid model using the above methods
 - [ ] SVDpp instead of KNNWithZscore
 - [ ] Neural Network
+- [ ] Flask app interface tweaks
+- [ ] Visual map of game similarity
 - [ ] Flask app ready for deployment on the web
 
-For now, both ipynb and py files uploaded. The notebook files should run fine but py files were for learning and testing purposes and have not been update for a while.
+For now, both ipynb and py files uploaded. The notebook files should run fine but py files were for learning and testing purposes and have not been updated in a while.
 
 ## [Notebooks](notebooks)
 
