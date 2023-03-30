@@ -37,13 +37,18 @@
     {% endif %}
     {% if similar_games %}
       <h4 class="pt-3 pb-2">Games similar to {{ game }}</h4>
-      <table class="table table-borderless align-middle">
+      <table class="table table-borderless">
         <caption class="visually-hidden">Similar Games</caption>
+        <colgroup>
+          <col span="1" style="width: 60%;">
+          <col span="1" style="width: 20%;">
+          <col span="1" style="width: 20%;">
+        </colgroup>
         <thead class="thead-light">
           <tr>
             <th>Game</th>
             <th>Similarity</th>
-            <th>Description</th>
+            <th>Info</th>
           </tr>
         </thead>
         {% for game in similar_games %}
@@ -59,7 +64,7 @@
                 {{ game['score'] }}
             </td>
               <td>
-                <button class="collapse-btn btn btn-primary">Expand/Collapse</button>
+                <button class="collapse-btn btn btn-primary">Expand</button>
               </td>
             </tr>
             <tr class="collapse-row">
