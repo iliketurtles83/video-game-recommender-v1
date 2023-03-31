@@ -4,10 +4,8 @@ body {
 
 table {
     width: 100%;
-    vertical-align: middle;
 }
 
 .collapse-row {
-    display: none;
     width: 100%; /* set the width to match the table columns */
 }
