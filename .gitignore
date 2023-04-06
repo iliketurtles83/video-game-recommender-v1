@@ -1,6 +1,7 @@
 *.csv
 *.pkl
 *.json
+*.log
 .ipynb_checkpoints
 .pyc
 __pycache__
