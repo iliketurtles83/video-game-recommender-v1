@@ -48,6 +48,19 @@ A model based on collaborative filtering that was adapted from Keras website. Se
 ### [Content-based BERT Sentence Embedding](notebooks/model_bert.ipynb)
 Content-based embedding using sentence-transformers. The results are not that great at the moment meaning the recommendations are all over the place.
 
+### [Vectorizer and Distance Metrics Testing](notebooks/data_vector_distance_params.ipynb)
+Running both TfidfVectorizer and Countvectorizer and various distance metrics. Here are some observations:
+- In general, these descriptions are written by developers themselves, are potentially ad blurbs and thereby vary a lot. TODO: find a site with more uniform descriptions and scrape those (IGDB?)
+- Cosine similarity with TF-IDF max_features does not make a huge difference and overll with other parameters does not vary much.
+- Cosine similarity seems to actually provide better results with CountVectorizer. Due similarity scores being much lower, perhaps use a weight bigger than 0.25 when combining it with the knn similarity matrix.
+- Manhattan distance is pretty useless with either vectorizer.
+- Euclidean distance with CountVectorizer is also useless.
+- Euclidean distance with TF-IDF results don't vary a lot with different parameters
+- With TF-IDF Jaccard, max_features 1000 and above doesn't make a difference.
+- With Jaccard, TF-IDF and CountVectorizer results are pretty much the same.
+- Seems like overall, min_df does not make a huge difference.
+- 
+
 ### [Algo Benchmarking](notebooks/model_benchmark.ipynb)
 Code by Susan Li to benchmark different algorithms for collaborative filtering. Thank you Susan! Link for her gist and article in the code. Because I wanted this recommender system to be not user-to-user based, i opted for KNNWithZScore.
 
